@@ -4,11 +4,7 @@ spark = SparkSession.builder \
     .appName("Customer Behavior Analysis") \
     .getOrCreate()
 
-df = spark.read.csv(
-"hdfs:///user/aaqib/input_projects/5_customer_behavior/*.csv",
-header=True,
-inferSchema=True
-)
+df = spark.read.csv("hdfs:///user/aaqib/input_projects/5_customer_behavior/*.csv", header=True, inferSchema=True)
 
 #df.show(5)
 #df.printSchema()
