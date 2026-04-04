@@ -1,35 +1,51 @@
 # Customer Behavior Analysis using Spark
 
 ## Project Description
-This project analyzes e-commerce customer behavior using Apache Spark.
-The goal is to understand user activity such as product views, cart actions, and purchases to identify potential churn patterns.
+This project analyzes large-scale e-commerce customer behavior using Apache Spark (PySpark).
+The objective is to understand user interactions such as product views, add-to-cart actions, and purchases, and derive insights like customer engagement, popular products, and revenue trends.
+
+This project simulates real-world big data processing using distributed computing.
 
 ## Technologies Used
 - Apache Spark (PySpark)
 - Python
-- Linux
+- Linux (Ubuntu)
+- HDFS (for distributed storage)
 - CSV Dataset
 
 ## Dataset
-The dataset contains e-commerce user interaction data with fields:
-- event_time
-- event_type
-- product_id
-- category_id
-- category_code
-- brand
-- price
-- user_id
-- user_session
+The dataset contains e-commerce user interaction data with the following fields:
 
+- `event_time` – Timestamp of the event 
+- `event_type` – Type of action (view, cart, purchase) 
+- `product_id` – Unique product identifier
+- `category_id` – Product category ID
+- `category_code` – Product category name 
+- `brand` – Brand name 
+- `price` – Product price
+- `user_id` – Unique user identifier
+- `user_session` – Session ID of the user
 ## Analysis Performed
-- Event type analysis (view, cart, purchase)
+The following analyses were performed using Spark:
+
+- Event type distribution (view, cart, purchase)
 - Top viewed products
 - Top purchased products
-- Top brands by purchase
-- Revenue analysis
-- Active user analysis
-- Session activity analysis
+- Top brands based on purchases
+- Revenue generation analysis
+- Active users analysis
+- Session-based activity tracking
 
 ## Output
-The analysis results are saved in the `output` folder.
+- Aggregated insights are generated using Spark DataFrame operations
+- Results are stored in the `output/` directory
+- Outputs include:
+  - Event counts
+  - Product rankings
+  - Brand performance
+  - Revenue summaries
+
+## Key Highlights
+- Handles large-scale data using distributed processing
+- Uses Spark transformations and actions efficiently
+- Demonstrates real-world data engineering + analytics workflow
