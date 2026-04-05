@@ -78,7 +78,7 @@ df.filter(df.event_type == "purchase") \
   .select("user_id","product_id","price") \
   .show(10)
 
-#
+# Identify users who added to cart but did not purchase 
 cart_users = df.filter(df.event_type == "cart").select("user_id").distinct()
 purchase_users = df.filter(df.event_type == "purchase").select("user_id").distinct()
 
