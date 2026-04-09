@@ -25,6 +25,7 @@ The dataset contains e-commerce user interaction data with the following fields:
 - `price` – Product price
 - `user_id` – Unique user identifier
 - `user_session` – Session ID of the user
+
 ## Analysis Performed
 The following analyses were performed using Spark:
 
@@ -35,15 +36,13 @@ The following analyses were performed using Spark:
 - Revenue generation analysis
 - Active users analysis
 - Session-based activity tracking
-
+  
 ## Output
 - Aggregated insights are generated using Spark DataFrame operations
-- Results are stored in the `output/` directory
+- Key results are stored in the `output/` directory
 - Outputs include:
-  - Event counts
-  - Product rankings
-  - Brand performance
-  - Revenue summaries
+  - Brand revenue analysis (stored in HDFS)
+  - Other insights such as event counts, product rankings, and user analysis are displayed during execution
 
 ## Key Highlights
 - Handles large-scale data using distributed processing
