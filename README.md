@@ -11,11 +11,11 @@ It helps understand user engagement patterns such as product views, cart actions
 - Linux
 
 ## Project Structure
-data_sets --> Dataset files
-spark_scripts --> PySpark analysis scripts
-queries --> SQL analysis queries 
-output --> Analysis results 
-docs --> Project documentation 
+- data_sets --> Dataset files
+- spark_scripts --> PySpark analysis scripts
+- queries --> SQL analysis queries 
+- output --> Analysis results 
+- docs --> Project documentation 
 
 ## Key Analysis
 - Event type distribution
