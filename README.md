@@ -1,16 +1,21 @@
-
-# Customer Behavior Analysis Using Spark 
+# Customer Behavior Analysis using Apache Spark
 
 ## Overview
-This project analyzes customer behavior from e-commerce interaction data using Apache Spark.  
-It helps understand user engagement patterns such as product views, cart actions, and purchases.
 
-## Technologies
-- Apache Spark (PySpark)
-- Python
-- Linux
+This project analyzes large-scale e-commerce customer behavior using Apache Spark (PySpark).
+It processes user interaction data (views, cart, purchases) to extract insights such as product popularity, customer activity, and revenue trends.
+
+This project simulates a real-world big data analytics use case.
+
+## Tech Stack
+
+* Apache Spark (PySpark)
+* Python
+* Hadoop HDFS
+* Linux
 
 ## Project Structure
+
 ```
 .
 ├── data_sets
@@ -30,10 +35,34 @@ It helps understand user engagement patterns such as product views, cart actions
 └── spark_scripts
     └── behavior_analysis.py
 ```
-## Key Analysis
-- Event type distribution
-- Top viewed products
-- Top purchased products
-- Brand revenue analysis
-- User activity analysis
-- Session analysis
+
+## Workflow
+
+CSV → HDFS → Spark Processing → Data Analysis → Output (HDFS)
+
+## How to Run
+
+```bash
+# Upload data to HDFS
+hdfs dfs -put data_sets/ecommerce_behavior/*.csv /user/aaqib/input_projects/5_customer_behavior/
+
+# Run Spark job
+spark-submit spark_scripts/behavior_analysis.py
+```
+
+## Analysis Performed
+
+* Event type distribution (view, cart, purchase)
+* Top viewed and purchased products
+* Brand-wise revenue analysis
+* Most active users and sessions
+* Cart abandonment analysis
+* Hourly activity trends
+
+## Outcome
+
+Extracted meaningful insights from large-scale e-commerce data using distributed processing with Spark.
+
+## Key Learning
+
+Spark transformations, actions, distributed data processing, and real-world analytics.
