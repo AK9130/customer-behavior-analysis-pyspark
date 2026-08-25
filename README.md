@@ -30,10 +30,10 @@ This project simulates a real-world big data analytics use case.
 │       ├── part-00001-4a20e486-9c5b-4da7-97a8-ef36d02fceba-c000.csv
 │       └── _SUCCESS
 ├── queries
-│   └── analysis_queries.sql
+│   └── analysis_queries.sql     <---Spark SQL
 ├── README.md
 └── spark_scripts
-    └── behavior_analysis.py
+    └── behavior_analysis.py     <---PySpark
 ```
 
 ## Workflow
