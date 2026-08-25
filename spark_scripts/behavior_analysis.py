@@ -12,6 +12,9 @@ df = spark.read.csv(
     inferSchema=True
 )
 
+# Create SQL view
+df.createOrReplaceTempView("ecommerce_behavior")
+
 # 3. Event Type Distribution
 df.groupBy("event_type").count().show()
 
