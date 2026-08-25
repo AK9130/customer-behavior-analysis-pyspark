@@ -1,50 +1,55 @@
 # Customer Behavior Analysis using Spark
 
 ## Project Description
-This project analyzes large-scale e-commerce customer behavior using Apache Spark (PySpark).
-The objective is to understand user interactions such as product views, add-to-cart actions, and purchases, and derive insights like customer engagement, popular products, and revenue trends.
 
-This project simulates real-world big data processing using distributed computing.
+- This project analyzes customer behavior on an e-commerce website using Apache Spark (PySpark).
+- It analyzes views, cart additions, and purchases to understand product popularity, customer activity, and revenue.
+- The project demonstrates large-scale data processing using Spark and HDFS.
 
 ## Technologies Used
+
 - Apache Spark (PySpark)
+- Spark SQL
 - Python
 - Linux (Ubuntu)
-- HDFS (for distributed storage)
+- Hadoop HDFS
 - CSV Dataset
 
 ## Dataset
-The dataset contains e-commerce user interaction data with the following fields:
 
-- `event_time` – Timestamp of the event 
-- `event_type` – Type of action (view, cart, purchase) 
-- `product_id` – Unique product identifier
-- `category_id` – Product category ID
-- `category_code` – Product category name 
-- `brand` – Brand name 
-- `price` – Product price
-- `user_id` – Unique user identifier
-- `user_session` – Session ID of the user
+The dataset contains e-commerce customer activity with the following fields:
+
+- `event_time` – event timestamp
+- `event_type` – view, cart, or purchase
+- `product_id` – product ID
+- `category_id` – category ID
+- `category_code` – product category
+- `brand` – product brand
+- `price` – product price
+- `user_id` – customer ID
+- `user_session` – session ID
 
 ## Analysis Performed
-The following analyses were performed using Spark:
 
-- Event type distribution (view, cart, purchase)
-- Top viewed products
-- Top purchased products
-- Top brands based on purchases
-- Revenue generation analysis
-- Active users analysis
-- Session-based activity tracking
-  
+- Event type distribution
+- Top viewed and purchased products
+- Top brands and brand-wise revenue
+- Most active users and sessions
+- Top categories and average category price
+- Unique users and hourly activity
+- Highest-value purchases
+- Cart abandonment analysis
+- Total revenue analysis
+
 ## Output
-- Aggregated insights are generated using Spark DataFrame operations
-- Key results are stored in the `output/` directory
-- Outputs include:
-  - Brand revenue analysis (stored in HDFS)
-  - Other insights such as event counts, product rankings, and user analysis are displayed during execution
+
+- Analysis results are displayed using Spark DataFrame and Spark SQL operations.
+- Brand-wise revenue is stored in HDFS.
+- Output is generated under the project output directory.
 
 ## Key Highlights
-- Handles large-scale data using distributed processing
-- Uses Spark transformations and actions efficiently
-- Demonstrates real-world data engineering + analytics workflow
+
+- Large-scale e-commerce data processing using Spark.
+- Uses PySpark, Spark SQL, and HDFS.
+- Performs product, customer, session, and revenue analysis.
+- Demonstrates a real-world big data analytics workflow.
