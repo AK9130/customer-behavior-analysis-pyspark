@@ -1,3 +1,5 @@
+# SQL queries
+
 -- Event type count
 SELECT event_type, COUNT(*) 
 FROM ecommerce_behavior
