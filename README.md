@@ -10,6 +10,7 @@ This project simulates a real-world big data analytics use case.
 ## Tech Stack
 
 * Apache Spark (PySpark)
+* Spark SQL
 * Python
 * Hadoop HDFS
 * Linux
