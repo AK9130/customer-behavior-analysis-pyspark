@@ -1,5 +1,6 @@
-# SQL queries
-
+-- SQL queries
+-- Using method spark.sql()
+  
 -- Event type count
 SELECT event_type, COUNT(*) 
 FROM ecommerce_behavior
