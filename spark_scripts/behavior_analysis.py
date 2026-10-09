@@ -121,4 +121,4 @@ df.filter(df.event_type == "purchase") \
   .sum("price") \
   .write \
   .mode("overwrite") \
-  .csv("hdfs:///user/aaqib/output_projects/5_customer_behavior/brand_revenue")
+  .parquet("hdfs:///user/aaqib/output_projects/5_customer_behavior/brand_revenue")
