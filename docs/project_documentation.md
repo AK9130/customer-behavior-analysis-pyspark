@@ -1,55 +1,59 @@
-# Customer Behavior Analysis using Spark
+# Project Documentation: Customer Behavior Analysis Using Spark
 
-## Project Description
+## 1. Implementation Details
+This project uses PySpark to process e-commerce customer behavior data stored in HDFS.
+The script reads CSV files, creates a Spark DataFrame, and performs aggregations to analyze customer events, products, brands, categories, sessions, and revenue.
 
-- This project analyzes customer behavior on an e-commerce website using Apache Spark (PySpark).
-- It analyzes views, cart additions, and purchases to understand product popularity, customer activity, and revenue.
-- The project demonstrates large-scale data processing using Spark and HDFS.
+## 2. Data Processing
+- Read CSV files from HDFS using spark.read.csv().
+- Enable header recognition and schema inference.
+- Create a temporary SQL view named ecommerce_behavior.
+- Filter records by event type.
+- Group records and calculate counts, averages, and revenue.
+- Sort results to identify top products, brands, and users.
+- Save brand-wise purchase revenue in Parquet format.
 
-## Technologies Used
+## 3. Important Technical Decisions
+### Reading Multiple CSV Files
 
-- Apache Spark (PySpark)
-- Spark SQL
-- Python
-- Linux (Ubuntu)
-- Hadoop HDFS
-- CSV Dataset
+The input path uses a wildcard:
 
-## Dataset
+hdfs:///user/aaqib/input_projects/5_customer_behavior/*.csv
 
-The dataset contains e-commerce customer activity with the following fields:
+Spark reads matching CSV files from the specified directory. The actual dataset processed depends on which files are present there.
 
-- `event_time` – event timestamp
-- `event_type` – view, cart, or purchase
-- `product_id` – product ID
-- `category_id` – category ID
-- `category_code` – product category
-- `brand` – product brand
-- `price` – product price
-- `user_id` – customer ID
-- `user_session` – session ID
+### Revenue Calculation
+Revenue by brand is calculated using purchase events and the sum of the price column.
 
-## Analysis Performed
+### Parquet Output
+The script saves brand-wise revenue using the following code:
 
-- Event type distribution
-- Top viewed and purchased products
-- Top brands and brand-wise revenue
-- Most active users and sessions
-- Top categories and average category price
-- Unique users and hourly activity
-- Highest-value purchases
-- Cart abandonment analysis
-- Total revenue analysis
+.write \
+.mode("overwrite") \
+.parquet("hdfs:///user/aaqib/output_projects/5_customer_behavior/brand_revenue")
 
-## Output
+The overwrite mode replaces existing output at the target path when the write runs successfully.
 
-- Analysis results are displayed using Spark DataFrame and Spark SQL operations.
-- Brand-wise revenue is stored in HDFS.
-- Output is generated under the project output directory.
+## 4. Cart and Purchase Analysis
+The script compares distinct users with cart events against distinct users with purchase events.
+This identifies users who had cart activity but no purchase event in the loaded dataset. It is a user-level comparison, not a session-level or product-level cart abandonment calculation.
 
-## Key Highlights
+## 5. Output Verification
+The output can be checked using:
 
-- Large-scale e-commerce data processing using Spark.
-- Uses PySpark, Spark SQL, and HDFS.
-- Performs product, customer, session, and revenue analysis.
-- Demonstrates a real-world big data analytics workflow.
+hdfs dfs -ls /user/aaqib/output_projects/5_customer_behavior/brand_revenue/
+
+The directory contains Parquet part-files and a _SUCCESS marker after a successful write.
+
+## 6. Challenges and Learning
+- Reading multiple CSV files from HDFS.
+- Working with large datasets using PySpark.
+- Performing filtering, grouping, aggregation, and sorting.
+- Creating and using a Spark SQL temporary view.
+- Writing aggregated results in Parquet format.
+- Verifying output files in HDFS.
+
+## 7. Related Files
+- PySpark script: spark_scripts/behavior_analysis.py
+- Spark SQL queries: queries/analysis_queries.sql
+- Main project overview: README.md
