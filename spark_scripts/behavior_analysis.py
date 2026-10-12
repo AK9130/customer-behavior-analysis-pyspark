@@ -91,11 +91,10 @@ df.groupBy(hour("event_time").alias("hour")) \
   .show(24)
 
 # 15. Highest Value Purchases
-df.filter(df.event_type == "purchase") \
+df.select("user_id", "product_id", "price") \
+  .filter(df.event_type == "purchase") \
   .orderBy("price", ascending=False) \
-  .select("user_id", "product_id", "price") \
   .show(10)
-
 
 # 16. Cart Abandonment Analysis
 
