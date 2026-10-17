@@ -1,4 +1,4 @@
-# Project Documentation: Customer Behavior Analysis Using Spark
+# Project Documentation: Customer Behavior Analysis Using Apache Spark
 
 ## 1. Implementation Details
 This project uses PySpark to process e-commerce customer behavior data stored in HDFS.
