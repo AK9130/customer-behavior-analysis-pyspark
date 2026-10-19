@@ -16,7 +16,6 @@ The local dataset directory contains:
 ``` text
 data_sets/ecommerce_behavior/
 ├── 2019-Oct.csv
-└── 2019-Nov.csv
 ```
 
 HDFS Input:
@@ -24,7 +23,6 @@ HDFS Input:
 
 Files:
 - 2019-Oct.csv
-- 2019-Nov.csv
 
 The dataset includes these fields:
 
@@ -109,7 +107,6 @@ format.
 ├── data_sets/
 │   └── ecommerce_behavior/
 │       ├── 2019-Oct.csv
-│       └── 2019-Nov.csv
 ├── docs/
 │   └── project_documentation.md
 ├── output/
@@ -131,7 +128,7 @@ format.
 **Output directory**
 
 ``` text
-/user/aaqib/output_projects/5_customer_behavior/brand_revenue/
+/user/aaqib/output_projects/5_customer_behavior/brand_revenue_parquet/
 ```
 
 ## 9. How to Run
@@ -141,7 +138,7 @@ Run these commands from the project root directory.
 
 ``` bash
 hdfs dfs -mkdir -p /user/aaqib/input_projects/5_customer_behavior
-hdfs dfs -put data_sets/ecommerce_behavior/*.csv /user/aaqib/input_projects/5_customer_behavior/
+hdfs dfs -put data_sets/ecommerce_behavior/2019-Oct.csv /user/aaqib/input_projects/5_customer_behavior/
 ```
 
 If the files already exist in HDFS, check the directory first to avoid a
@@ -160,7 +157,7 @@ spark-submit spark_scripts/behavior_analysis.py
 ### Step 3: Check the output in HDFS
 
 ``` bash
-hdfs dfs -ls /user/aaqib/output_projects/5_customer_behavior/brand_revenue/
+hdfs dfs -ls /user/aaqib/output_projects/5_customer_behavior/brand_revenue_parquet/
 ```
 
 ## 10. Spark SQL Queries
