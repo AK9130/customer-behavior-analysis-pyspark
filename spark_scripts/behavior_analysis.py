@@ -51,7 +51,7 @@ df.filter(df.event_type == "purchase") \
 df.filter(df.event_type == "purchase") \
   .filter(F.col("brand").isNotNull()) \
   .groupBy("brand") \
-  .sum("price") \
+  .agg(F.sum("price").cast("decimal(15,2)").alias("total_revenue")) \
   .orderBy("sum(price)", ascending=False) \
   .show(10)
 
@@ -124,7 +124,7 @@ df.filter(df.event_type == "purchase") \
 df.filter(df.event_type == "purchase") \
   .filter(F.col("brand").isNotNull()) \
   .groupBy("brand") \
-  .sum("price") \
+  .agg(F.sum("price").cast("decimal(15,2)").alias("total_revenue")) \
   .write \
   .mode("overwrite") \
   .parquet(output_path)
