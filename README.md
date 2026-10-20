@@ -91,8 +91,39 @@ DataFrame analysis       Temporary SQL view
 14. Users who added to cart but have no purchase event in the loaded data
 15. Total purchase revenue
 
-## 7. Results
+## 7. Key Insights
 
+### Dataset Scale
+- Total events analyzed: **[X million]** rows (Oct + Nov 2019)
+- Distinct users: **[X]**
+- Distinct sessions: **[X]**
+
+### Event Funnel
+| Event Type | Count | % of Total |
+|------------|-------|------------|
+| view       | [X]   | [X%]       |
+| cart       | [X]   | [X%]       |
+| purchase   | [X]   | [X%]       |
+
+- View → Cart conversion: **[X%]**
+- Cart → Purchase conversion: **[X%]**
+
+### Revenue
+- Total revenue from purchase events: **[X]**
+- Top brand by revenue: **[brand]** ([X])
+- Top category by purchases: **[category]**
+
+### User Behavior
+- Peak activity hour: **[HH:00]**
+- Users with cart events but no purchase: **[X]** ([X%] of cart users)
+- Most active user: **[X events]**
+
+### Takeaways
+1. [Ek line: sabse bada pattern jo dikha]
+2. [Ek line: drop-off kahan hai]
+3. [Ek line: business recommendation]
+
+## 8. Results
 > Screenshots of the script output. Replace the placeholder text under each image with your own observation.
 
 ### Event Type Distribution
@@ -123,7 +154,7 @@ Add one line about peak hours (timestamps are in UTC).
 
 Output of `hdfs dfs -ls` and `spark.read.parquet(...).show()` confirming the result was saved.
 
-## 8. Spark SQL
+## 9. Spark SQL
 
 A temporary view is created from the DataFrame:
 
@@ -148,7 +179,7 @@ The queries are also collected in:
 queries/analysis_queries.sql
 ```
 
-## 9. Output
+## 10. Output
 
 Brand-wise purchase revenue is saved in **Parquet format**:
 
@@ -162,7 +193,7 @@ The output is a folder containing `_SUCCESS` and one or more `part-*.parquet` fi
 spark.read.parquet("hdfs://localhost:9000/user/aaqib/output_projects/5_customer_behavior/brand_revenue_parquet").show()
 ```
 
-## 10. Design Decisions and Data Quality
+## 11. Design Decisions and Data Quality
 
 - **Null handling:** `brand` and `category_code` contain null values. Rows with null values are excluded from brand and category analyses (the null counts are printed at the start of the script).
 - **Parquet output:** Parquet is columnar, compressed, and keeps the schema with the data, so it is fast to read and easy to use from BI tools or later Spark jobs.
@@ -170,7 +201,7 @@ spark.read.parquet("hdfs://localhost:9000/user/aaqib/output_projects/5_customer_
 - **Caching:** the DataFrame is cached to avoid re-reading the CSV from HDFS for every analysis.
 - **Timestamps** are in UTC, so hourly activity is shown in UTC.
 
-## 11. Project Structure
+## 12. Project Structure
 
 ```text
 .
@@ -187,7 +218,7 @@ spark.read.parquet("hdfs://localhost:9000/user/aaqib/output_projects/5_customer_
 └── README.md
 ```
 
-## 12. How to Run
+## 13. How to Run
 
 Run these commands from the project root directory.
 
@@ -224,7 +255,7 @@ spark-submit --master local[2] --driver-memory 2g spark_scripts/behavior_analysi
 hdfs dfs -ls /user/aaqib/output_projects/5_customer_behavior/brand_revenue_parquet/
 ```
 
-## 13. Key Learning Outcomes
+## 14. Key Learning Outcomes
 
 - Working with a large e-commerce dataset using PySpark
 - Reading CSV data from HDFS
@@ -234,6 +265,6 @@ hdfs dfs -ls /user/aaqib/output_projects/5_customer_behavior/brand_revenue_parqu
 - Customer, product, brand, category, session, and revenue analysis
 - Writing aggregated results to HDFS in Parquet format
 
-## 14. Conclusion
+## 15. Conclusion
 
 This project demonstrates an e-commerce analytics workflow using PySpark and HDFS. It applies DataFrame and Spark SQL transformations to customer interaction data and writes brand-wise purchase revenue to Parquet files in HDFS.
