@@ -117,7 +117,7 @@ cart_users.subtract(purchase_users).show(10)
 
 # 18. Total Revenue
 df.filter(df.event_type == "purchase") \
-  .select(F.sum("price").alias("total_revenue")) \
+  .select(F.sum("price").cast("decimal(15,2)").alias("total_revenue")) \
   .show()
 
 # 19. Save Revenue by Brand to HDFS (Parquet format)
