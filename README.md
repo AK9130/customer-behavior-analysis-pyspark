@@ -91,70 +91,41 @@ DataFrame analysis       Temporary SQL view
 14. Users who added to cart but have no purchase event in the loaded data
 15. Total purchase revenue
 
-## 7. Key Insights
-
-### Dataset Scale
-- Total events analyzed: **[X million]** rows (Oct + Nov 2019)
-- Distinct users: **[X]**
-- Distinct sessions: **[X]**
-
-### Event Funnel
-| Event Type | Count | % of Total |
-|------------|-------|------------|
-| view       | [X]   | [X%]       |
-| cart       | [X]   | [X%]       |
-| purchase   | [X]   | [X%]       |
-
-- View → Cart conversion: **[X%]**
-- Cart → Purchase conversion: **[X%]**
-
-### Revenue
-- Total revenue from purchase events: **[X]**
-- Top brand by revenue: **[brand]** ([X])
-- Top category by purchases: **[category]**
-
-### User Behavior
-- Peak activity hour: **[HH:00]**
-- Users with cart events but no purchase: **[X]** ([X%] of cart users)
-- Most active user: **[X events]**
-
-### Takeaways
-1. [Ek line: sabse bada pattern jo dikha]
-2. [Ek line: drop-off kahan hai]
-3. [Ek line: business recommendation]
-
-## 8. Results
-> Screenshots of the script output. Replace the placeholder text under each image with your own observation.
+## 7. Results
 
 ### Event Type Distribution
-![Event distribution](screenshots/01_event_distribution.png)
+![Event distribution](docs/screenshots/pyspark_output/01_event_distribution.png)
 
-Add one line: which event type is highest and what it says about the funnel.
+About 96% of the 42.4 million events are views, while carts (~2.2%) and purchases (~1.7%) are small, showing a steep funnel.
 
 ### Top Brands by Purchases
-![Top brands by purchases](screenshots/02_top_brands_purchases.png)
+![Top brands by purchases](docs/screenshots/pyspark_output/02_top_brands_purchases.png)
 
-Add one line about the top brand.
+Samsung leads with 172,896 purchase events, followed by Apple and Xiaomi.
 
 ### Top Brands by Revenue
-![Top brands by revenue](screenshots/03_top_brands_revenue.png)
+![Top brands by revenue](docs/screenshots/pyspark_output/03_top_brands_revenue.png)
 
-Add one line about the top brand by revenue.
+Apple generates the highest revenue (about 111.2 million) despite fewer purchases than Samsung, because of a much higher average price per purchase.
 
 ### Hourly Activity
-![Hourly activity](screenshots/04_hourly_activity.png)
+![Hourly activity](docs/screenshots/pyspark_output/04_hourly_activity.png)
 
-Add one line about peak hours (timestamps are in UTC).
+Hourly distribution of events across the day, showing the peak and low-activity hours (timestamps are in UTC).
 
 ### Total Revenue
-![Total revenue](screenshots/05_total_revenue.png)
+![Total revenue](docs/screenshots/pyspark_output/05_total_revenue.png)
 
 ### Parquet Output in HDFS
-![Parquet output](screenshots/06_parquet_output.png)
+![Parquet output](docs/screenshots/pyspark_output/06_parquet_output.png)
 
-Output of `hdfs dfs -ls` and `spark.read.parquet(...).show()` confirming the result was saved.
+The `_SUCCESS` marker and the `part-*.parquet` file confirm the result was written to HDFS.
 
-## 9. Spark SQL
+![Parquet read back](docs/screenshots/pyspark_output/06b_parquet_read.png)
+
+Reading the Parquet output back with Spark shows the `brand` and `total_revenue` columns.
+
+## 8. Spark SQL
 
 A temporary view is created from the DataFrame:
 
@@ -162,24 +133,22 @@ A temporary view is created from the DataFrame:
 df.createOrReplaceTempView("ecommerce_behavior")
 ```
 
-The same event, product, brand, and revenue analyses are also run with `spark.sql(...)`, and the results were cross-checked against the DataFrame API versions. Example:
+The same event and brand analyses are also run with `spark.sql(...)`, and the results were cross-checked against the DataFrame API versions.
 
-```sql
-SELECT brand, SUM(price) AS total_revenue
-FROM ecommerce_behavior
-WHERE event_type = 'purchase' AND brand IS NOT NULL
-GROUP BY brand
-ORDER BY total_revenue DESC
-LIMIT 10
-```
-
-The queries are also collected in:
+The queries are collected in:
 
 ```text
 queries/analysis_queries.sql
 ```
 
-## 10. Output
+### SQL Output
+![SQL event distribution](docs/screenshots/sql_output/01_sql_event_distribution.png)
+![SQL top brands by purchases](docs/screenshots/sql_output/02_sql_top_brands_purchases.png)
+![SQL brand revenue](docs/screenshots/sql_output/03_sql_brand_revenue.png)
+
+The SQL results match the DataFrame API results.
+
+## 9. Output
 
 Brand-wise purchase revenue is saved in **Parquet format**:
 
@@ -193,32 +162,46 @@ The output is a folder containing `_SUCCESS` and one or more `part-*.parquet` fi
 spark.read.parquet("hdfs://localhost:9000/user/aaqib/output_projects/5_customer_behavior/brand_revenue_parquet").show()
 ```
 
-## 11. Design Decisions and Data Quality
+## 10. Design Decisions and Data Quality
 
 - **Null handling:** `brand` and `category_code` contain null values. Rows with null values are excluded from brand and category analyses (the null counts are printed at the start of the script).
 - **Parquet output:** Parquet is columnar, compressed, and keeps the schema with the data, so it is fast to read and easy to use from BI tools or later Spark jobs.
 - **Only brand revenue is persisted:** the other analyses are exploratory and displayed on the console (see Results). Brand revenue is the key business metric and is small enough to store as a reusable output.
-- **Caching:** the DataFrame is cached to avoid re-reading the CSV from HDFS for every analysis.
-- **Timestamps** are in UTC, so hourly activity is shown in UTC.
+- **Persistence:** the DataFrame is persisted with `MEMORY_AND_DISK`, so the large CSV is not re-read from HDFS for every analysis and Spark can spill to disk if memory runs short.
+- **Timestamps** are in UTC.
 
-## 12. Project Structure
+## 11. Project Structure
 
 ```text
 .
-├── data_sets/
-│   └── ecommerce_behavior/
-│       └── 2019-Oct.csv
-├── docs/
-│   └── project_documentation.md
-├── queries/
-│   └── analysis_queries.sql
-├── screenshots/
-├── spark_scripts/
-│   └── behavior_analysis.py
-└── README.md
+├── data_sets
+│   └── ecommerce_behavior
+│       └── 2019-Oct.csv
+├── docs
+│   ├── project_documentation.md
+│   └── screenshots
+│       ├── pyspark_output
+│       │   ├── 01_event_distribution.png
+│       │   ├── 02_top_brands_purchases.png
+│       │   ├── 03_top_brands_revenue.png
+│       │   ├── 04_hourly_activity.png
+│       │   ├── 05_total_revenue.png
+│       │   ├── 06b_parquet_read.png
+│       │   └── 06_parquet_output.png
+│       └── sql_output
+│           ├── 01_sql_event_distribution.png
+│           ├── 02_sql_top_brands_purchases.png
+│           └── 03_sql_brand_revenue.png
+├── output
+│   └── brand_revenue_parquet
+├── queries
+│   └── analysis_queries.sql
+├── README.md
+└── spark_scripts
+    └── behavior_analysis.py
 ```
 
-## 13. How to Run
+## 12. How to Run
 
 Run these commands from the project root directory.
 
@@ -255,7 +238,7 @@ spark-submit --master local[2] --driver-memory 2g spark_scripts/behavior_analysi
 hdfs dfs -ls /user/aaqib/output_projects/5_customer_behavior/brand_revenue_parquet/
 ```
 
-## 14. Key Learning Outcomes
+## 13. Key Learning Outcomes
 
 - Working with a large e-commerce dataset using PySpark
 - Reading CSV data from HDFS
@@ -265,6 +248,6 @@ hdfs dfs -ls /user/aaqib/output_projects/5_customer_behavior/brand_revenue_parqu
 - Customer, product, brand, category, session, and revenue analysis
 - Writing aggregated results to HDFS in Parquet format
 
-## 15. Conclusion
+## 14. Conclusion
 
 This project demonstrates an e-commerce analytics workflow using PySpark and HDFS. It applies DataFrame and Spark SQL transformations to customer interaction data and writes brand-wise purchase revenue to Parquet files in HDFS.
