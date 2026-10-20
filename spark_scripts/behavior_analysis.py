@@ -1,5 +1,6 @@
 from pyspark.sql import SparkSession
 from pyspark.sql import functions as F
+from pyspark import StorageLevel
 
 # 1. Create Spark Session
 spark = SparkSession.builder \
@@ -13,7 +14,7 @@ output_path = "hdfs://localhost:9000/user/aaqib/output_projects/5_customer_behav
 df = spark.read.csv(input_path, header=True, inferSchema=True)
 
 # Cache the DataFrame to avoid re-reading from HDFS for every analysis
-df.cache()
+df.persist(StorageLevel.MEMORY_AND_DISK)
 print("Total rows:", df.count())
 
 # 3. Data Quality Check: count null values in key columns
