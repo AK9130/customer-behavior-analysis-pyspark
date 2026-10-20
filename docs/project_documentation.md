@@ -18,7 +18,7 @@ The script reads CSV files, creates a Spark DataFrame, and performs aggregations
 
 The input path uses a wildcard:
 
-hdfs:///user/aaqib/input_projects/5_customer_behavior/*.csv
+hdfs:///user/aaqib/input_projects/5_customer_behavior/2019-Oct.csv
 
 Spark reads matching CSV files from the specified directory. The actual dataset processed depends on which files are present there.
 
@@ -30,7 +30,7 @@ The script saves brand-wise revenue using the following code:
 
 .write \
 .mode("overwrite") \
-.parquet("hdfs:///user/aaqib/output_projects/5_customer_behavior/brand_revenue")
+.parquet("hdfs:///user/aaqib/output_projects/5_customer_behavior/brand_revenue_parquet")
 
 The overwrite mode replaces existing output at the target path when the write runs successfully.
 
@@ -41,7 +41,7 @@ This identifies users who had cart activity but no purchase event in the loaded 
 ## 5. Output Verification
 The output can be checked using:
 
-hdfs dfs -ls /user/aaqib/output_projects/5_customer_behavior/brand_revenue/
+hdfs dfs -ls /user/aaqib/output_projects/5_customer_behavior/brand_revenue_parquet/
 
 The directory contains Parquet part-files and a _SUCCESS marker after a successful write.
 
