@@ -111,7 +111,7 @@ Apple generates the highest revenue (about 111.2 million) despite fewer purchase
 ### Hourly Activity
 ![Hourly activity](docs/screenshots/pyspark_output/04_hourly_activity.png)
 
-Hourly distribution of events across the day, showing the peak and low-activity hours (timestamps are in UTC).
+Activity peaks at 21:00 UTC with about 3.06 million events and is lowest at 04:00 UTC with about 0.24 million events. Traffic stays steady through the midday hours and rises again in the evening (timestamps are in UTC).
 
 ### Total Revenue
 ![Total revenue](docs/screenshots/pyspark_output/05_total_revenue.png)
