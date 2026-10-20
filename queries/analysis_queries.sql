@@ -1,38 +1,44 @@
--- SQL queries
--- Using method spark.sql()
-  
--- Event type count
-SELECT event_type, COUNT(*) 
-FROM ecommerce_behavior
-GROUP BY event_type;
+# Spark SQL queries
+df.createOrReplaceTempView("ecommerce_behavior")
 
--- Top viewed products
-SELECT product_id, COUNT(*) 
+spark.sql("""
+SELECT event_type, COUNT(*) AS total_events
 FROM ecommerce_behavior
-WHERE event_type='view'
+GROUP BY event_type
+""").show()
+
+spark.sql("""
+SELECT product_id, COUNT(*) AS total_views
+FROM ecommerce_behavior
+WHERE event_type = 'view'
 GROUP BY product_id
-ORDER BY COUNT(*) DESC
-LIMIT 10;
+ORDER BY total_views DESC
+LIMIT 10
+""").show()
 
--- Top purchased products
-SELECT product_id, COUNT(*) 
+spark.sql("""
+SELECT product_id, COUNT(*) AS total_purchases
 FROM ecommerce_behavior
-WHERE event_type='purchase'
+WHERE event_type = 'purchase'
 GROUP BY product_id
-ORDER BY COUNT(*) DESC
-LIMIT 10;
+ORDER BY total_purchases DESC
+LIMIT 10
+""").show()
 
--- Top brands by purchase
-SELECT brand, COUNT(*) 
+spark.sql("""
+SELECT brand, COUNT(*) AS total_purchases
 FROM ecommerce_behavior
-WHERE event_type='purchase'
+WHERE event_type = 'purchase' AND brand IS NOT NULL
 GROUP BY brand
-ORDER BY COUNT(*) DESC
-LIMIT 10;
+ORDER BY total_purchases DESC
+LIMIT 10
+""").show()
 
--- Revenue by brand
-SELECT brand, SUM(price) 
+spark.sql("""
+SELECT brand, SUM(price) AS total_revenue
 FROM ecommerce_behavior
-WHERE event_type='purchase'
+WHERE event_type = 'purchase'  AND brand IS NOT NULL
 GROUP BY brand
-ORDER BY SUM(price) DESC;
+ORDER BY total_revenue DESC
+LIMIT 10
+""").show()
