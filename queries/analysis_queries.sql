@@ -35,10 +35,11 @@ LIMIT 10
 """).show()
 
 spark.sql("""
-SELECT brand, SUM(price) AS total_revenue
+SELECT brand, CAST(SUM(price) AS DECIMAL(15,2)) AS total_revenue
 FROM ecommerce_behavior
 WHERE event_type = 'purchase'  AND brand IS NOT NULL
 GROUP BY brand
 ORDER BY total_revenue DESC
 LIMIT 10
 """).show()
+
