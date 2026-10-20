@@ -42,4 +42,3 @@ GROUP BY brand
 ORDER BY total_revenue DESC
 LIMIT 10
 """).show()
-
