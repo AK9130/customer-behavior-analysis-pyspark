@@ -52,7 +52,7 @@ df.filter(df.event_type == "purchase") \
   .filter(F.col("brand").isNotNull()) \
   .groupBy("brand") \
   .agg(F.sum("price").cast("decimal(15,2)").alias("total_revenue")) \
-  .orderBy("sum(price)", ascending=False) \
+  .orderBy("total_revenue", ascending=False) \
   .show(10)
 
 # 9. Most Active Users
