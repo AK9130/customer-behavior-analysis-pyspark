@@ -96,7 +96,7 @@ DataFrame analysis       Temporary SQL view
 ### Event Type Distribution
 ![Event distribution](docs/screenshots/pyspark_output/01_event_distribution.png)
 
-About 96% of the 42.4 million events are views, while carts (~2.2%) and purchases (~1.7%) are small, showing a steep funnel.
+About 96% of the 42.4 million events are views, while carts (2.2%) and purchases (1.7%) are small, showing a steep funnel.
 
 ### Top Brands by Purchases
 ![Top brands by purchases](docs/screenshots/pyspark_output/02_top_brands_purchases.png)
