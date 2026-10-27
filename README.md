@@ -143,9 +143,17 @@ queries/analysis_queries.sql
 ```
 
 ### SQL Output
+Event Type-wise Total Events
 ![SQL event distribution](docs/screenshots/sql_output/01_sql_event_distribution.png)
+The dataset contains the highest number of view events, followed by cart and purchase events.
+
+Top 10 Brands by Purchase Count
 ![SQL top brands by purchases](docs/screenshots/sql_output/02_sql_top_brands_purchases.png)
+Samsung has the highest number of purchase events, followed by Apple and Xiaomi.
+
+Top 10 Brands by Total Revenue
 ![SQL brand revenue](docs/screenshots/sql_output/03_sql_brand_revenue.png)
+Apple generates the highest revenue, followed by Samsung and Xiaomi.
 
 The SQL results match the DataFrame API results.
 
