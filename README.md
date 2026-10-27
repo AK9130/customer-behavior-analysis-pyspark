@@ -115,6 +115,7 @@ Activity peaks at 21:00 UTC with about 3.06 million events and is lowest at 04:0
 
 ### Total Revenue
 ![Total revenue](docs/screenshots/pyspark_output/05_total_revenue.png)
+The total revenue generated from all purchase events is approximately 230 million.
 
 ### Parquet Output in HDFS
 ![Parquet output](docs/screenshots/pyspark_output/06_parquet_output.png)
